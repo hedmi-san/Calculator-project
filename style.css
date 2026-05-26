@@ -8,12 +8,19 @@ body {
 .main {
   text-align: center;
 }
-input {
+#fname {
   height: 30px;
   margin: 0px 5px;
   border: 1px solid black;
   border-radius: 5px;
 }
+#operation {
+  height: 30px;
+  margin: 0px 5px;
+  border: 0;
+  border-radius: 5px;
+}
+
 .box {
   border: 1px solid black;
   height: 40px;

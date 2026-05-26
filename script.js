@@ -1,52 +1,109 @@
-const buttonList = document.querySelectorAll('.number');
-const textField = document.querySelector('input');
-let operation;
-let numberOne;
-let numberTwo;
-let result;
+let operator = '';
+let firstOperand = '';
+let secondOperand = '';
+let waitingForSecondOperand = false;
+const textField = document.querySelector('#fname');
+const displayField = document.querySelector('#operation');
+let result = 0;
 
-function add(numOne, numTwo) {
-    const sumBtn = document.querySelector('.plus');
-    sumBtn.addEventListener('click', () => {
-        numOne = Number.parseInt(textField.value);
-        console.log(numOne);
-    });
+function add(a, b) {
+    return a + b;
 }
-function subtract(numOne, numTwo) {
-    const rslt = document.querySelector('.minus');
-    rslt.addEventListener('click', () => {
-        return numOne - numTwo;
-    });
+function subtract(a, b) {
+    return a - b;
 }
-function multiply(numOne, numTwo) {
-    const rslt = document.querySelector('.multiply');
-    rslt.addEventListener('click', () => {
-        return numOne * numTwo;
-    });
+function multiply(a, b) {
+    return a * b;
 }
-function divide(numOne, numTwo) {
-    const rslt = document.querySelector('.divide');
-    rslt.addEventListener('click', () => {
-        return numOne / numTwo;
-    });
+function divide(a, b) {
+    return a / b;
 }
 
 function updateInputField() {
+    const buttonList = document.querySelectorAll('.number');
     let temp;
     buttonList.forEach((btn) => {
         btn.addEventListener('click', () => {
             temp = btn.textContent;
-            textField.value += temp;
+            textField.value = textField.value + temp;
+            displayField.value = displayField.value + temp;
         });
     });
 }
 
-function operate(numberOne, numberTwo) {
-    add(numberOne, numberTwo);
-    subtract(numberOne, numberTwo);
-    multiply(numberOne, numberTwo);
-    divide(numberOne, numberTwo);
+function operate() {
+    let plus = document.querySelector('.plus');
+    plus.addEventListener('click', () => {
+        operator = 'add';
+        if (!waitingForSecondOperand) {
+            firstOperand = Number.parseInt(textField.value);
+            displayField.value = displayField.value + ' + ';
+            textField.value = '';
+        }
+    });
+
+    let minus = document.querySelector('.minus');
+    minus.addEventListener('click', () => {
+        operator = 'minus';
+        if (!waitingForSecondOperand) {
+            firstOperand = Number.parseInt(textField.value);
+            displayField.value = displayField.value + ' - ';
+            textField.value = '';
+        }
+    });
+
+    let product = document.querySelector('.multiply');
+    product.addEventListener('click', () => {
+        operator = 'multiply';
+        if (!waitingForSecondOperand) {
+            firstOperand = Number.parseInt(textField.value);
+            displayField.value = displayField.value + ' x ';
+            textField.value = '';
+        }
+    });
+
+    let divide = document.querySelector(' .divide');
+    divide.addEventListener('click', () => {
+        operator = 'divide';
+        if (!waitingForSecondOperand) {
+            firstOperand = Number.parseInt(textField.value);
+            displayField.value = displayField.value + ' / ';
+            textField.value = '';
+        }
+    });
+
+    let clear = document.querySelector('.clr');
+    clear.addEventListener('click', () => {
+        textField.value = '';
+        displayField.value = '';
+        let firstOperand = '';
+        let secondOperand = '';
+    });
+
+    let calculate = document.querySelector('.equal');
+    calculate.addEventListener('click', () => {
+        switch (operator) {
+            case 'add':
+                secondOperand = Number.parseInt(textField.value);
+                textField.value = add(firstOperand, secondOperand);
+                break;
+            case 'minus':
+                secondOperand = Number.parseInt(textField.value);
+                textField.value = subtract(firstOperand, secondOperand);
+                break;
+            case 'multiply':
+                secondOperand = Number.parseInt(textField.value);
+                textField.value = multiply(firstOperand, secondOperand);
+                break;
+            case 'divide':
+                secondOperand = Number.parseInt(textField.value);
+                textField.value = divide(firstOperand, secondOperand);
+                break;
+            default:
+                break;
+        }
+    });
 }
 
 updateInputField();
-add(numberOne, numberTwo);
+operate();
