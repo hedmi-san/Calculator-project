@@ -80,24 +80,34 @@ function operate() {
         let secondOperand = '';
     });
 
+
     let calculate = document.querySelector('.equal');
     calculate.addEventListener('click', () => {
         switch (operator) {
             case 'add':
-                secondOperand = Number.parseInt(textField.value);
-                textField.value = add(firstOperand, secondOperand);
+                if (!waitingForSecondOperand) {
+                    secondOperand = Number.parseInt(textField.value);
+                    textField.value = add(firstOperand, secondOperand);
+                    result = textField.value;
+                }
                 break;
             case 'minus':
-                secondOperand = Number.parseInt(textField.value);
-                textField.value = subtract(firstOperand, secondOperand);
+                if (!waitingForSecondOperand) {
+                    secondOperand = Number.parseInt(textField.value);
+                    textField.value = subtract(firstOperand, secondOperand);
+                }
                 break;
             case 'multiply':
-                secondOperand = Number.parseInt(textField.value);
-                textField.value = multiply(firstOperand, secondOperand);
+                if (!waitingForSecondOperand) {
+                    secondOperand = Number.parseInt(textField.value);
+                    textField.value = multiply(firstOperand, secondOperand);
+                }
                 break;
             case 'divide':
-                secondOperand = Number.parseInt(textField.value);
-                textField.value = divide(firstOperand, secondOperand);
+                if (!waitingForSecondOperand) {
+                    secondOperand = Number.parseInt(textField.value);
+                    textField.value = divide(firstOperand, secondOperand);
+                }
                 break;
             default:
                 break;
