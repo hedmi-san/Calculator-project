@@ -34,41 +34,73 @@ function updateInputField() {
 function operate() {
     let plus = document.querySelector('.plus');
     plus.addEventListener('click', () => {
-        operator = 'add';
         if (!waitingForSecondOperand) {
+            operator = 'add';
             firstOperand = Number.parseInt(textField.value);
             displayField.value = displayField.value + ' + ';
             textField.value = '';
+            waitingForSecondOperand = true;
+        } else {
+            secondOperand = Number.parseInt(textField.value);
+            result = add(firstOperand, secondOperand);
+            displayField.value = displayField.value + ' + ';
+            textField.value = '';
+            firstOperand = result;
+            secondOperand = '';
         }
     });
 
     let minus = document.querySelector('.minus');
     minus.addEventListener('click', () => {
-        operator = 'minus';
         if (!waitingForSecondOperand) {
+            operator = 'minus';
             firstOperand = Number.parseInt(textField.value);
             displayField.value = displayField.value + ' - ';
             textField.value = '';
+            waitingForSecondOperand = true;
+        } else {
+            secondOperand = Number.parseInt(textField.value);
+            result = subtract(firstOperand, secondOperand);
+            displayField.value = displayField.value + ' + ';
+            textField.value = '';
+            firstOperand = result;
+            secondOperand = '';
         }
     });
 
     let product = document.querySelector('.multiply');
     product.addEventListener('click', () => {
-        operator = 'multiply';
         if (!waitingForSecondOperand) {
+            operator = 'multiply';
             firstOperand = Number.parseInt(textField.value);
             displayField.value = displayField.value + ' x ';
             textField.value = '';
+            waitingForSecondOperand = true;
+        } else {
+            secondOperand = Number.parseInt(textField.value);
+            result = multiply(firstOperand, secondOperand);
+            displayField.value = displayField.value + ' + ';
+            textField.value = '';
+            firstOperand = result;
+            secondOperand = '';
         }
     });
 
     let divide = document.querySelector(' .divide');
     divide.addEventListener('click', () => {
-        operator = 'divide';
         if (!waitingForSecondOperand) {
+            operator = 'divide';
             firstOperand = Number.parseInt(textField.value);
             displayField.value = displayField.value + ' / ';
             textField.value = '';
+            waitingForSecondOperand = true;
+        } else {
+            secondOperand = Number.parseInt(textField.value);
+            result = divide(firstOperand, secondOperand);
+            displayField.value = displayField.value + ' + ';
+            textField.value = '';
+            firstOperand = result;
+            secondOperand = null;
         }
     });
 
@@ -78,39 +110,53 @@ function operate() {
         displayField.value = '';
         let firstOperand = '';
         let secondOperand = '';
+        waitingForSecondOperand = false;
     });
 
 
     let calculate = document.querySelector('.equal');
     calculate.addEventListener('click', () => {
-        switch (operator) {
-            case 'add':
-                if (!waitingForSecondOperand) {
-                    secondOperand = Number.parseInt(textField.value);
-                    textField.value = add(firstOperand, secondOperand);
-                    result = textField.value;
-                }
-                break;
-            case 'minus':
-                if (!waitingForSecondOperand) {
-                    secondOperand = Number.parseInt(textField.value);
-                    textField.value = subtract(firstOperand, secondOperand);
-                }
-                break;
-            case 'multiply':
-                if (!waitingForSecondOperand) {
-                    secondOperand = Number.parseInt(textField.value);
-                    textField.value = multiply(firstOperand, secondOperand);
-                }
-                break;
-            case 'divide':
-                if (!waitingForSecondOperand) {
-                    secondOperand = Number.parseInt(textField.value);
-                    textField.value = divide(firstOperand, secondOperand);
-                }
-                break;
-            default:
-                break;
+        if (textField.value !== '') {
+            switch (operator) {
+                case 'add':
+                    if (waitingForSecondOperand) {
+                        secondOperand = Number.parseInt(textField.value);
+                        result = add(firstOperand, secondOperand);
+                        firstOperand = result;
+                        textField.value = firstOperand;
+                    } else {
+                    }
+                    break;
+                case 'minus':
+                    if (waitingForSecondOperand) {
+                        secondOperand = Number.parseInt(textField.value);
+                        result = subtract(firstOperand, secondOperand);
+                        firstOperand = result;
+                        textField.value = firstOperand;
+                    }
+                    break;
+                case 'multiply':
+                    if (waitingForSecondOperand) {
+                        secondOperand = Number.parseInt(textField.value);
+                        result = multiply(firstOperand, secondOperand);
+                        firstOperand = result;
+                        textField.value = firstOperand;
+                    }
+                    break;
+                case 'divide':
+                    if (waitingForSecondOperand) {
+                        secondOperand = Number.parseInt(textField.value);
+                        result = divide(firstOperand, secondOperand);
+                        firstOperand = result;
+                        textField.value = firstOperand;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            waitingForSecondOperand = false;
+        } else {
+            alert('Make syre you write a correct operation')
         }
     });
 }
