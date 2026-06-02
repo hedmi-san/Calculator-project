@@ -124,6 +124,7 @@ function operate() {
                         result = add(firstOperand, secondOperand);
                         firstOperand = result;
                         textField.value = firstOperand;
+                        waitingForSecondOperand = false;
                     } else {
                     }
                     break;
@@ -133,6 +134,7 @@ function operate() {
                         result = subtract(firstOperand, secondOperand);
                         firstOperand = result;
                         textField.value = firstOperand;
+                        waitingForSecondOperand = false;
                     }
                     break;
                 case 'multiply':
@@ -141,20 +143,26 @@ function operate() {
                         result = multiply(firstOperand, secondOperand);
                         firstOperand = result;
                         textField.value = firstOperand;
+                        waitingForSecondOperand = false;
                     }
                     break;
                 case 'divide':
                     if (waitingForSecondOperand) {
                         secondOperand = Number.parseInt(textField.value);
-                        result = divide(firstOperand, secondOperand);
-                        firstOperand = result;
-                        textField.value = firstOperand;
+                        if (secondOperand === 0) {
+                            alert('can`t divide on 0');
+                        } else {
+                            result = divide(firstOperand, secondOperand);
+                            firstOperand = result;
+                            textField.value = firstOperand;
+                            waitingForSecondOperand = false;
+                        }
                     }
                     break;
                 default:
                     break;
             }
-            waitingForSecondOperand = false;
+
         } else {
             alert('Make syre you write a correct operation')
         }
